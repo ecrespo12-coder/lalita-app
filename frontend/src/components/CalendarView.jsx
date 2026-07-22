@@ -7,7 +7,7 @@ import { colorFor } from '../constants/categories';
 function toEvents(activities) {
   return activities.map((a) => ({
     id: a._id,
-    title: `${a.title}`,
+    title: a.time ? `⏰${a.time} ${a.title}` : a.title,
     date: a.date,
     backgroundColor: a.color || colorFor(a.category),
     borderColor: a.color || colorFor(a.category)

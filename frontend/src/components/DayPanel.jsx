@@ -5,15 +5,17 @@ export default function DayPanel({ date, activities, onAdd, onDelete, onClose })
   const [category, setCategory] = useState(CATEGORIES[0].name);
   const [title, setTitle] = useState('');
   const [notes, setNotes] = useState('');
+  const [time, setTime] = useState('');
 
   if (!date) return null;
 
   const handleSubmit = (e) => {
     e.preventDefault();
     if (!title.trim()) return;
-    onAdd({ date, category, title: title.trim(), notes: notes.trim(), color: colorFor(category) });
+    onAdd({ date, category, title: title.trim(), notes: notes.trim(), time, color: colorFor(category) });
     setTitle('');
     setNotes('');
+    setTime('');
   };
 
   return (
@@ -33,6 +35,7 @@ export default function DayPanel({ date, activities, onAdd, onDelete, onClose })
               <div>
                 <span className="activity-emoji">{emojiFor(a.category)}</span>
                 <strong>{a.category}</strong>: {a.title}
+                {a.time && <span className="activity-time">⏰ {a.time}</span>}
                 {a.notes && <p className="activity-notes">{a.notes}</p>}
               </div>
               <button className="btn-delete" onClick={() => onDelete(a._id)}>
@@ -62,6 +65,10 @@ export default function DayPanel({ date, activities, onAdd, onDelete, onClose })
             onChange={(e) => setNotes(e.target.value)}
             rows={2}
           />
+          <label className="time-field">
+            🔔 Recordatorio (opcional)
+            <input type="time" value={time} onChange={(e) => setTime(e.target.value)} />
+          </label>
           <button type="submit" className="btn-primary">
             Agregar
           </button>

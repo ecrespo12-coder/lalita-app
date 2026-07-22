@@ -5,6 +5,7 @@ import Dashboard from './components/Dashboard';
 import MotivationalCard from './components/MotivationalCard';
 import Login from './components/Login';
 import { api, getToken, setToken } from './api';
+import { useAlarms } from './hooks/useAlarms';
 
 export default function App() {
   const [authChecked, setAuthChecked] = useState(false);
@@ -14,6 +15,7 @@ export default function App() {
   const [selectedDate, setSelectedDate] = useState(null);
   const [dayActivities, setDayActivities] = useState([]);
   const [error, setError] = useState('');
+  const { activeAlarm, dismissAlarm } = useAlarms(activities);
 
   useEffect(() => {
     const token = getToken();
@@ -102,6 +104,15 @@ export default function App() {
       </header>
 
       {error && <div className="banner-error">{error}</div>}
+
+      {activeAlarm && (
+        <div className="alarm-toast">
+          <span>
+            ⏰ <strong>{activeAlarm.title}</strong> · {activeAlarm.category} ({activeAlarm.time})
+          </span>
+          <button onClick={dismissAlarm}>✕</button>
+        </div>
+      )}
 
       <main className="app-main">
         {tab === 'calendario' && (

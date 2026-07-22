@@ -28,6 +28,10 @@ const activitySchema = new mongoose.Schema(
       required: true,
       index: true
     },
+    time: {
+      type: String, // formato 'HH:MM' opcional, para la alarma/recordatorio
+      default: ''
+    },
     category: {
       type: String,
       required: true
